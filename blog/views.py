@@ -5,16 +5,21 @@ from django.utils import timezone
 # Create your views here.
 
 def blog_view(request):
-    Post.objects.filter(published_date__lte=timezone.now()).update(status=True)
-    posts=Post.objects.filter(status=True)
+    posts=Post.objects.filter(published_date__lte=timezone.now(), status=True)
     context = {'posts':posts} 
     return render(request, 'blog/blog-home.html', context)
 
 
 def blog_single_view(request, pid):
-    post = get_object_or_404(Post, pk=pid)
-
+    # posts=Post.objects.filter(published_date__lte=timezone.now(), status=True)
+    post = get_object_or_404(Post, pk=pid, status=1, published_date__lte=timezone.now())
     post.counted_views += 1
     post.save()
-    context = {'post':post}
+    posts=Post.objects.filter(published_date__lte=timezone.now(), status=True)
+
+    context = {
+          'post': post,
+          'next': posts.filter(id__gt=post.id).order_by('id').first(), 
+          'previous': posts.filter(id__lt=post.id).order_by('-id').first()
+        }
     return render(request, 'blog/blog-single.html', context) 
