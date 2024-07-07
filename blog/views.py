@@ -11,12 +11,10 @@ def blog_view(request):
 
 
 def blog_single_view(request, pid):
-    # posts=Post.objects.filter(published_date__lte=timezone.now(), status=True)
+    posts=Post.objects.filter(published_date__lte=timezone.now(), status=True)
     post = get_object_or_404(Post, pk=pid, status=1, published_date__lte=timezone.now())
     post.counted_views += 1
     post.save()
-    posts=Post.objects.filter(published_date__lte=timezone.now(), status=True)
-
     context = {
           'post': post,
           'next': posts.filter(id__gt=post.id).order_by('id').first(), 
