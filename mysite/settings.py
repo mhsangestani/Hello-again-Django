@@ -31,15 +31,40 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'robots',
+    'debug_toolbar',
+    'taggit',
+    'captcha',
+    'django_summernote',
+    'django_extensions',
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
 ]
+
+
+# sites framework
+SITE_ID = 2
+
+# robots 
+ROBOTS_USE_HOST = True
+ROBOTS_USE_SITEMAP = True
+
+
+# CAPTCHA_ADMIN SETTINGS
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +74,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -131,3 +158,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
